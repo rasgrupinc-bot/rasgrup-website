@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<link rel="icon" href="logo.png">
+<meta name="description" content="RAS GRUP - Layanan belanja, keuangan, dan kreatif dalam satu tempat.">
+<meta name="keywords" content="RAS Grup, TeRAS Mart, Brilink, Karikatur, Foto, Video, Neon, Futuristik">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAS GRUP Cyber Futuristic</title>
+
+<style>
+body, html { margin:0; padding:0; height:100%; font-family:'Segoe UI',Arial,sans-serif; background:#000; color:#00FFFF; overflow-x:hidden; }
+a { text-decoration:none; color:#00FFFF; }
+h1,h2 { margin:0; }
+
+nav { width:220px; background:rgba(0,0,0,0.85); display:flex; flex-direction:column; justify-content:space-between; padding:20px; border-right:2px solid #00FFFF; box-shadow:0 0 20px #00FFFF; position:fixed; height:100%; left:0; top:0; transition: transform 0.3s ease; z-index:2; }
+nav h1 { font-size:1.8rem; color: #0f0;text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 40px #0f0; margin-bottom:20px; animation: neonText 2s infinite alternate; }
+nav a { display:block; font-weight:bold; margin:10px 0; text-shadow:0 0 5px #00FFFF,0 0 15px #00FFFF; transition:0.3s; }
+nav a:hover { transform:translateX(8px); text-shadow:0 0 20px #00FFFF,0 0 40px #00FFFF; }
+@keyframes neonText {0%{text-shadow:0 0 5px #0f0,0 0 10px #0f0;}50%{text-shadow:0 0 20px #0f0,0 0 40px #0f0,0 0 60px #0f0;}100%{text-shadow:0 0 5px #0f0,0 0 10px #0f0;}}
+
+#hamburger { display:none; position:fixed; top:15px; left:15px; z-index:3; font-size:28px; cursor:pointer; color:#00FFFF; text-shadow:0 0 10px #00FFFF; }
+
+.content-wrapper { margin-left:300px; padding:20px; transition:margin-left 0.3s; min-height:100vh; position:relative; overflow:hidden; }
+
+.content { position:absolute; top:0; left:0; width:100%; opacity:0; transform:translateX(100%); transition: transform 0.5s ease, opacity 0.5s ease; }
+.content.show { transform:translateX(0); opacity:1; }
+.logo-glow {
+  filter: drop-shadow(0 0 2.5px #0f0) drop-shadow(0 0 5px #0f0); 
+  animation: neonText 2s infinite alternate;
+}
+
+.logo-glow:hover {
+  filter: drop-shadow(0 0 10px #0f0) drop-shadow(0 0 16px #0f0); animation: neonText 2s infinite alternate;
+}
+
+/* Tambahkan animasi keluar */
+.content.fade-out {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+#overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+nav.show + #overlay {
+  display: block;
+}
+@media (max-width: 768px) {
+  .logo-glow {
+    width: 80%;
+    max-width: 300px;
+  }
+}
+form input, form textarea, form select {
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+form label {
+  margin-top: 10px;
+  display: block;
+  font-weight: bold;
+}
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.gallery img {
+  width: 100%;
+  height: auto;
+  border: 2px solid #00FFFF;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00FFFF;
+  transition: transform 0.3s ease;
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00FFFF;
+}
+
+
+form { background: rgba(0,0,0,0.8); padding:20px; border-radius:10px; max-width:400px; margin-bottom:20px; box-shadow:0 0 20px #00FFFF inset; }
+form input, form textarea, form select { width:100%; padding:8px; margin-top:5px; background:#000; border:1px solid #00FFFF; color:#00FFFF; border-radius:5px; }
+form button { background:#00FFFF; color:#000; border:none; padding:10px; margin-top:10px; cursor:pointer; font-weight:bold; border-radius:5px; box-shadow:0 0 15px #00FFFF; transition:0.3s; }
+form button:hover { box-shadow:0 0 30px #00FFFF inset; }
+
+.floating-btn { position: fixed; right: 20px; padding:12px 18px; border-radius:50px; font-weight:bold; text-decoration:none; box-shadow:0 0 20px #00FFFF; animation: floatNeon 2s infinite alternate; z-index:2; color:#000; background:#00FFFF; }
+.wa-btn { bottom:80px; } .email-btn { bottom:20px; }
+@keyframes floatNeon {0%{box-shadow:0 0 20px #00FFFF; transform:translateY(0);}50%{box-shadow:0 0 40px #00FFFF; transform:translateY(-6px);}100%{box-shadow:0 0 20px #00FFFF; transform:translateY(0);}}
+
+/* Responsive */
+@media(max-width:768px){
+    nav { transform:translateX(-250px); }
+    nav.show { transform:translateX(0); }
+    #hamburger { display:block; }
+    .content-wrapper { margin-left:0; padding:80px 20px 20px 20px; }
+}
+
+#gridCanvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; }
+</style>
+</head>
+<body>
+
+<canvas id="gridCanvas"></canvas>
+
+<div id="hamburger">&#9776;</div>
+
+<nav id="sidebar">
+<h1>RAS GRUP</h1>
+<div style="flex-grow:1;">
+<a href="#" onclick="playClick();toggleSidebar();showPage('home')">Home</a>
+<a href="#" onclick="playClick();toggleSidebar();showPage('mart')">TeRAS Mart</a>
+<a href="#" onclick="playClick();toggleSidebar();showPage('brilink')">Agen Brilink</a>
+<a href="#" onclick="playClick();toggleSidebar();showPage('karikatur')">Karikatur</a>
+<a href="#" onclick="playClick();toggleSidebar();showPage('foto')">Foto & Video</a>
+<a href="#" onclick="playClick();toggleSidebar();showPage('kontak')">Kontak</a>
+</div>
+</nav>
+<div id="overlay" onclick="toggleSidebar()" style="display:none;"></div>
+<div class="content-wrapper">
+    <div id="home" class="content show" style="text-align:center">
+	<h2 style="
+  margin-bottom: 1px;
+  color: #0f0;
+  text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 40px #0f0; animation: neonText 2s infinite alternate;
+">Selamat Datang di RAS GRUP</h2>
+    <img src="https://drive.google.com/uc?export=view&id=1BHZ-C_85jXjWeGWFUbv7dX_RaCZdCJWU" alt="Logo RAS" class="logo-glow" style="width:500px; height:auto;">
+
+    <p style="margin-top: 0;">Melayani kebutuhan Anda mulai dari belanja, layanan keuangan, hingga jasa kreatif.</p>
+	</div>
+
+	
+    <div id="mart" class="content">
+  <h2>TeRAS Mart</h2>
+  <p>Toko serba ada dengan produk berkualitas dan harga terjangkau.</p>
+  <div class="gallery">
+    <img src="mart1.jpg" alt="Produk 1">
+    <img src="mart2.jpg" alt="Produk 2">
+    <img src="mart3.jpg" alt="Produk 3">
+  </div>
+  </div>
+
+    <div id="brilink" class="content"><h2>Agen Brilink</h2><p>Layanan transaksi perbankan BRI dengan cepat dan aman.</p></div>
+    <div id="karikatur" class="content">
+        <h2>Pemesanan Karikatur</h2>
+		<div class="gallery">
+  <img src="karikatur1.jpg" alt="Karikatur 1">
+  <img src="karikatur2.jpg" alt="Karikatur 2">
+  <img src="karikatur3.jpg" alt="Karikatur 3">
+</div>
+
+        <form id="formKarikatur">
+            <label>Nama:</label><input type="text" name="nama" required>
+            <label>Email:</label><input type="email" name="email" required>
+            <label>Nomor WhatsApp:</label><input type="tel" name="wa" required>
+            <label>Deskripsi Karikatur:</label><textarea name="deskripsi" required></textarea>
+            <button type="submit" onclick="playClick()">Kirim Pesanan</button>
+        </form>
+    </div>
+    <div id="foto" class="content">
+        <h2>Pemesanan Foto & Video</h2>
+		<div class="gallery">
+  <img src="foto1.jpg" alt="Foto Event 1">
+  <img src="foto2.jpg" alt="Video Dokumentasi">
+  <img src="foto3.jpg" alt="Foto Produk">
+</div>
+
+        <form id="formFoto">
+            <label>Nama:</label><input type="text" name="nama" required>
+            <label>Email:</label><input type="email" name="email" required>
+            <label>Nomor WhatsApp:</label><input type="tel" name="wa" required>
+            <label>Jenis Layanan:</label>
+            <select name="layanan" required>
+                <option value="">Pilih</option>
+                <option value="Foto Produk">Foto Produk</option>
+                <option value="Foto Event">Foto Event</option>
+                <option value="Video Dokumentasi">Video Dokumentasi</option>
+            </select>
+            <label>Deskripsi:</label><textarea name="deskripsi" required></textarea>
+            <button type="submit" onclick="playClick()">Kirim Pesanan</button>
+        </form>
+    </div>
+    <div id="kontak" class="content"><h2>Kontak Kami</h2><p>Email: rasgrup.inc@gmail.com</p><p>WhatsApp: +628122199446</p></div>
+</div>
+
+<a href="https://wa.me/628122199446" class="floating-btn wa-btn" onclick="playClick()" target="_blank">WhatsApp</a>
+<a href="mailto:rasgrup.inc@gmail.com" class="floating-btn email-btn" onclick="playClick()" target="_blank">Email</a>
+
+<script>
+// Hamburger toggle
+const hamburger=document.getElementById('hamburger');
+const sidebar=document.getElementById('sidebar');
+function toggleSidebar(){
+  sidebar.classList.toggle('show');
+  document.getElementById("overlay").style.display = sidebar.classList.contains('show') ? "block" : "none";
+}
+
+hamburger.addEventListener('click',()=>{ playClick(); toggleSidebar(); });
+
+// Neon click sound
+const audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+function playClick(){
+    const o=audioCtx.createOscillator();
+    const g=audioCtx.createGain();
+    o.type='square'; o.frequency.value=800; g.gain.value=0.1;
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime+0.08);
+}
+
+// Halaman slide
+let currentPage='home';
+function showPage(pageId){
+  if(pageId === currentPage) return;
+
+  const oldPage = document.getElementById(currentPage);
+  const newPage = document.getElementById(pageId);
+
+  oldPage.classList.remove('show');
+  oldPage.classList.add('fade-out');
+
+  setTimeout(() => {
+    oldPage.classList.remove('fade-out');
+    newPage.classList.add('show');
+    currentPage = pageId;
+    window.scrollTo(0, 0);
+  }, 300); // harus sama dengan durasi CSS transisi
+}
+
+// Form Google Apps Script
+const WEB_APP_URL="PASTE_URL_WEB_APP_DISINI";
+['formKarikatur','formFoto'].forEach(id => {
+  document.getElementById(id).addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn = this.querySelector("button");
+    btn.disabled = true;
+    btn.textContent = "Mengirim...";
+
+    const data = {};
+    Array.from(this.elements).forEach(el => {
+      if (el.name) data[el.name] = el.value;
+    });
+
+    fetch(WEB_APP_URL, {
+      method: "POST",
+      body: JSON.stringify(data)
+    })
+    .then(r => r.json())
+    .then(() => {
+      alert("Pesanan berhasil dikirim!");
+      this.reset();
+      btn.textContent = "Kirim Pesanan";
+      btn.disabled = false;
+    })
+    .catch(() => {
+      alert("Gagal mengirim pesanan");
+      btn.textContent = "Kirim Pesanan";
+      btn.disabled = false;
+    });
+  });
+});
+
+
+// Canvas partikel neon ringan
+const canvas=document.getElementById('gridCanvas');
+const ctx=canvas.getContext('2d');
+let width=canvas.width=window.innerWidth, height=canvas.height=window.innerHeight;
+const particles=[];
+for(let i=0;i<60;i++) particles.push({
+    x:Math.random()*width,
+    y:Math.random()*height,
+    radius:Math.random()*2+1,
+    speedX:(Math.random()-0.5)*0.3,
+    speedY:(Math.random()-0.5)*0.3,
+    alpha:Math.random()*0.7+0.3
+});
+
+function animate(){
+    ctx.clearRect(0,0,width,height);
+    particles.forEach(p=>{
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+        ctx.fillStyle=`rgba(0,255,0,${p.alpha})`; ctx.shadowBlur=8; ctx.shadowColor="#00FFFF"; ctx.fill();
+        p.x+=p.speedX; p.y+=p.speedY;
+        if(p.x<0)p.x=width;if(p.x>width)p.x=0;
+        if(p.y<0)p.y=height;if(p.y>height)p.y=0;
+    });
+    requestAnimationFrame(animate);
+}
+animate();
+window.addEventListener('resize',()=>{width=canvas.width=window.innerWidth;height=canvas.height=window.innerHeight;});
+</script>
+
+</body>
+</html>
